@@ -634,6 +634,21 @@
           <p>Informational</p>
         </a>
       </li>
+
+      <li class="nav-item">
+        {{-- <form id="logoutForm" action="{{route('admin.logout')}}" method="POST" style="display:none">@csrf</form> --}}
+        <a href="{{route('admin.logout')}}" class="nav-link"
+          {{-- onclick="document.getElementById('#logoutForm').submit(); return false;" --}}
+        >
+          <p>Logout</p>
+        </a>
+
+       
+
+      </li>
+
+     
+
     </ul>
   </nav>
   <!-- /.sidebar-menu -->
