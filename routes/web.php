@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'admin_login'])->name('admin.login');
 Route::post('admin/login/process', [AuthController::class, 'admin_login_process'])->name('admin.login.process');
-Route::post('admin/dashboard', [AuthController::class, 'admin_dashboard'])->name('admin.dashboard');
 
+Route::post('admin/dashboard', [AuthController::class, 'admin_dashboard'])->name('admin.dashboard');
 Route::get('admin/logout', [AuthController::class, 'admin_logout'])->name('admin.logout');
 
 Route::get('/', function () {
