@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('is_admin')->default(0);// 0 - customers, 1 - admin;
+            $table->integer('status')->default(0);// 0 - inactive, 1 - active;
+            $table->integer('is_deleted')->default(0);// 0 - not deleted, 1 - deleted;
             $table->rememberToken();
             $table->timestamps();
         });

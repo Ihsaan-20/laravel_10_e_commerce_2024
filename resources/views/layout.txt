@@ -1,12 +1,15 @@
 @extends('admin.layouts.app')
 @section('customStyles')
-
+{{-- //custom style here --}}
 @endsection
 
 @section('content')
-
+{{-- //main-content here --}}
 @endsection
 
 @section('customJs')
-
+{{-- //js here --}}
 @endsection
+
+
+INSERT INTO `users`(`name`, `email`, `password`, `is_admin`, `status`) VALUES ('Ihsaan Chandio', 'admin@gmail.com', '$2y$10$i0nqEQuipEEaMf3jV5seP.aJ9kVIfLDId15Wuuza6bDE91wTW8eia', 1,1)

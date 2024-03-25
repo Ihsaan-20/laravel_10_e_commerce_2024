@@ -13,7 +13,6 @@ class AuthController extends Controller
         if(!empty(Auth::check()) && Auth::user()->is_admin == 1)
         {
             return redirect('admin/dashboard');
-            // return "true";
         }
         return view('admin.auth.login');
     }
@@ -31,10 +30,10 @@ class AuthController extends Controller
         }
     }
 
-    public function admin_dashboard()
-    {
-        return view('admin.dashboard');
-    }
+    // public function admin_dashboard()
+    // {
+    //     return view('admin.dashboard');
+    // }
 
     public function admin_logout()
     {

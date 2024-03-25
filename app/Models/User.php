@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'status',
+        'is_deleted',
     ];
 
     /**
@@ -41,4 +44,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // get all admins;
+    static public function getAdminList()
+    {
+        return self::where('is_admin', 1) // 
+                    ->where('is_deleted', 0) // 0 for not deleted, 
+                    ->latest()
+                    ->get();
+    }
+
+    static public function getSingleUser($id)
+    {
+        return self::findOrFail($id);
+    }
+
 }
