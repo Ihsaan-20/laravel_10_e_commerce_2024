@@ -2,93 +2,94 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     public function list()
     {
-        // $data['admins'] = User::getAdminList();
-        // $data['header_title'] = 'Admin List';
-        // return view('admin.admin.list', compact('data'));
+        $data['header_title'] = 'Category List';
+        $data['categories'] = Category::getCategories();
+        return view('admin.category.list', compact('data'));
     }
     public function add()
     {
-        // $data['header_title'] = 'Admin Add';
-        // return view('admin.admin.add', compact('data'));
+        $data['header_title'] = 'Add Category';
+        return view('admin.category.add', compact('data'));
     }
 
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,email',
-        //     'password' => 'required',
-        // ]);
+        $this->validate($request, [
+            'name' => 'required',
+            'slug' => 'required|unique:categories,slug',
+            'meta_title' => 'required',
+        ],[
+            'name' => 'Category name is required',
+        ]);
 
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        //     'is_admin' => 1,
-        //     'status' => $request->status
-        // ]);
+        $category = Category::create([
+            'name' => trim($request->name),
+            'slug' => trim($request->slug),
+            'meta_title' => trim($request->meta_title),
+            'meta_description' =>trim($request->meta_description),
+            'meta_keywords' =>trim($request->meta_keywords),
+            'status' => $request->status,
+            'created_by' => Auth::user()->id
+        ]);
       
 
-        // if($user)
-        // {
-        //     return redirect()->route('admin.admin.list')->with('success', 'Admin Added Successfully');
-        // }
+        if($category)
+        {
+            return redirect()->route('admin.category.list')->with('success', 'Category Created Successfully');
+        }
         
     }
 
     public function edit($id)
     {
-        // $data['header_title'] = 'Edit Admin';
-        // $data['admin'] = User::getSingleUser($id);
-        // return view('admin.admin.edit', compact('data'));
+        $data['header_title'] = 'Edit Category';
+        $data['category'] = Category::findOrFail($id);
+        return view('admin.category.edit', compact('data'));
     }
 
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,email,'.$id,
-        //     'password' => 'nullable',
-        // ]);
+        $this->validate($request, [
+            'name' => 'required',
+            'slug' => 'required|unique:categories,slug,'.$id,
+            'meta_title' => 'required',
+        ],[
+            'name' => 'Category name is required',
+        ]);
 
-        // $admin = User::findOrFail($id);
-        // if($admin)
-        // {
-        //     $admin->name = $request->name;
-        //     $admin->email = $request->email;
-        //     if(!empty($request->password))
-        //     {
-        //         $admin->password = Hash::make( $request->password);
-        //     }
-        //     $admin->is_admin = 1;
-        //     $admin->status = $request->status;
-        //     $admin->save();
-        //     return redirect()->route('admin.admin.list')->with('success', 'Admin Updated Successfully');
-        // }
-        
-
+        $category = Category::findOrFail($id);
+        $category->name = trim($request->name);
+        $category->slug = trim($request->slug);
+        $category->meta_title = trim($request->meta_title);
+        $category->meta_description = trim($request->meta_description);
+        $category->meta_keywords = trim($request->meta_keywords);
+        $category->status = $request->status;
+        $category->updated_at = now();
+        $category->save();
+        return redirect()->route('admin.category.list')->with('success', 'Category Updated Successfully');
     }
 
     public function delete($id)
     {
-        // $admin = User::findOrFail($id);
-        // if($admin)
-        // {
-        //     $admin->is_deleted = 1; // yes
-        //     $admin->is_admin = 0; // change admin status
-        //     $admin->status = 0; // aslo status
-        //     $admin->save();
-        //     return redirect()->route('admin.admin.list')->with('deleted', 'Admin Deleted Successfully');
-        // }else
-        // {
-        //     return redirect()->route('admin.admin.list')->with('not_found', 'Admin not found! Please try again');
-        // }
+        $category = Category::findOrFail($id);
+        if($category)
+        {
+            $category->is_deleted = 1; // yes
+            $category->status = 0; // aslo status
+            $category->save();
+            return redirect()->route('admin.category.list')->with('success', 'Category Deleted Successfully');
+        }else
+        {
+            return redirect()->route('admin.category.list')->with('not_found', 'Category not found! Please try again');
+        }
     }
 }

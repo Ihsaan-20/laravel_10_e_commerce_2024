@@ -71,6 +71,7 @@ class AdminController extends Controller
             }
             $admin->is_admin = 1;
             $admin->status = $request->status;
+            $admin->updated_at = now();
             $admin->save();
             return redirect()->route('admin.admin.list')->with('success', 'Admin Updated Successfully');
         }

@@ -14,8 +14,8 @@
       </li>
 
       <li class="nav-item menu-open">
-        <a href="{{route('admin.admin.list')}}" class="nav-link @if(Request::segment(3) == 'list') active @endif">
-          {{-- <i class="nav-icon fas fa-tachometer-alt"></i> --}}
+        <a href="{{route('admin.admin.list')}}" class="nav-link @if(Request::segment(2) == 'admin') active @endif">
+          <i class="nav-icon fas fa-user-alt"></i>
           <p>
             Admin  
           </p>
@@ -23,26 +23,51 @@
       </li>
 
       <li class="nav-item menu-open">
-        <a href="#" class="nav-link ">
-          {{-- <i class="nav-icon fas fa-tachometer-alt"></i> --}}
+        <a href="{{route('admin.category.list')}}" class="nav-link 
+        @if(Request::segment(2) == 'category') active @endif"
+        >
+        <i class="nav-icon fas fa-list"></i>
+          <p>
+            Category
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item menu-open">
+        <a href="{{route('admin.sub_category.list')}}" class="nav-link 
+        @if(Request::segment(2) == 'sub_category') active @endif"
+        >
+        <i class="nav-icon fas fa-list"></i>
+          <p>
+            Sub Category
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item menu-open">
+        <a href="{{route('admin.product.list')}}" class="nav-link 
+          @if(Request::segment(2) == 'product') active @endif"
+        >
+          <i class="nav-icon fas fa-list-alt"></i>
           <p>
             Product
           </p>
         </a>
       </li>
 
-      <li class="nav-header">LABELS</li>
+      {{-- <li class="nav-header">LABELS</li>
       <li class="nav-item">
         <a href="#" class="nav-link">
           <p class="text">Important</p>
         </a>
-      </li>
+      </li> --}}
      
       <li class="nav-item">
         {{-- <form id="logoutForm" action="{{route('admin.logout')}}" method="POST" style="display:none">@csrf</form> --}}
         <a href="{{route('admin.logout')}}" class="nav-link"
           {{-- onclick="document.getElementById('#logoutForm').submit(); return false;" --}}
         >
+        <i class="nav-icon fas fa-sign-out-alt"></i>
           <p>Logout</p>
         </a>
 

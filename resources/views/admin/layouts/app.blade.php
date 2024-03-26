@@ -99,7 +99,31 @@
     });
   });
 </script>
+<script>
+  $(document).ready(function(){
+      $('#title').on('change', function(){
+          var title = $(this).val();
+          $.ajax({
+              type: 'POST',
+              url: '{{ route("generate.slug") }}',
+              data: {
+                  _token: '{{ csrf_token() }}',
+                  title: title
+              },
+              success: function(response){
+                  $('#slug').val(response.slug);
+              }
+          });
+      });
 
+      $('#meta_keywords').on('change', function(){
+            var keywords = $(this).val();
+            keywords = keywords.replace(/\s/g, ','); // Replace spaces with commas
+            $(this).val(keywords);
+        });
+
+  });
+</script>
 <!-- OPTIONAL SCRIPTS -->
 {{-- <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script> --}}
 <!-- AdminLTE for demo purposes -->
