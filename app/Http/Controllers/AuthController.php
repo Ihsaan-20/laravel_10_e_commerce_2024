@@ -21,7 +21,13 @@ class AuthController extends Controller
     {
         // dd($request->all());
         $remember = !empty($request->remember) ? true : false;
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_admin' => 1], $remember))
+        if(Auth::attempt([
+            'email' => $request->email,
+             'password' => $request->password,
+              'is_admin' => 1,
+              'status' => 1,
+              'is_deleted' => 0,
+            ], $remember))
         {
             return redirect('admin/dashboard');
         }else
@@ -29,11 +35,6 @@ class AuthController extends Controller
             return redirect()->back()->with('incorrect_password', 'Email or password is incorrect');
         }
     }
-
-    // public function admin_dashboard()
-    // {
-    //     return view('admin.dashboard');
-    // }
 
     public function admin_logout()
     {
