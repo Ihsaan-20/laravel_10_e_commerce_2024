@@ -114,13 +114,20 @@
                   $('#slug').val(response.slug);
               }
           });
-      });
+      });//end
 
       $('#meta_keywords').on('change', function(){
-            var keywords = $(this).val();
-            keywords = keywords.replace(/\s/g, ','); // Replace spaces with commas
-            $(this).val(keywords);
-        });
+        var keywords = $(this).val();
+        keywords = keywords.replace(/\s/g, ','); // Replace spaces with commas
+        $(this).val(keywords);
+      });//end
+
+        $('.only-number').keypress(function(event) {
+          var charCode = (event.which) ? event.which : event.keyCode;
+          if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+              event.preventDefault();
+          }
+        });//end
 
   });
 </script>

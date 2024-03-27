@@ -53,6 +53,8 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('sub_category/edit/{id}', [SubCategoryController::class, 'edit'])->name('sub_category.edit');
     Route::put('sub_category/update/{id}', [SubCategoryController::class, 'update'])->name('sub_category.update');
     Route::get('sub_category/delete/{id}', [SubCategoryController::class, 'delete'])->name('sub_category.delete');
+    Route::post('get/sub_categories', [SubCategoryController::class, 'getSubCategories'])->name('get.sub_categories');
+    
     //Brand crud routes
     Route::get('brand/list', [BrandController::class, 'list'])->name('brand.list');
     Route::get('brand/add', [BrandController::class, 'add'])->name('brand.add');

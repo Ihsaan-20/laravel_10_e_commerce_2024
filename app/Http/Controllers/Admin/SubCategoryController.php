@@ -100,4 +100,17 @@ class SubCategoryController extends Controller
             return redirect()->route('admin.sub_category.list')->with('not_found', 'Sub Category not found! Please try again');
         }
     }
+
+    public function getSubCategories(Request $request)
+    {
+        $category_id = $request->id;
+        $getSubGategories = SubCategory::getSubCategoriesByCategoryId($category_id);
+        $html = '';
+        $html = ' <option disabled selected>Select Sub Category Name</option>';
+        foreach ($getSubGategories as $subCategory) {
+            $html.= '<option value="'.$subCategory->id.'">'.$subCategory->name.'</option>';
+        }
+        $json['html'] = $html;
+        echo json_encode($json);
+    }
 }

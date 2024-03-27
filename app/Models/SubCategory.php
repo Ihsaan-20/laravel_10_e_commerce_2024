@@ -35,19 +35,16 @@ class SubCategory extends Model
             ]);
     }
     //with pagination;
-    // static public function getSubCategories()
-    // {
-    //     return DB::table('sub_categories')
-    //         ->leftJoin('categories', 'sub_categories.category_id', '=', 'categories.id')
-    //         ->leftJoin('users', 'users.id', '=', 'sub_categories.created_by')
-    //         ->where('sub_categories.is_deleted', 0)
-    //         ->latest()
-    //         ->paginate(10, [
-    //             'sub_categories.*',
-    //             'users.name as created_by_name',
-    //             'categories.name as category_name'
-    //         ]);
-    // }
+    static public function getSubCategoriesByCategoryId($category_id)
+    {
+        return DB::table('sub_categories')
+            ->leftJoin('users', 'users.id', '=', 'sub_categories.created_by')
+            ->where('sub_categories.is_deleted', 0)
+            ->where('sub_categories.status', 1)
+            ->where('sub_categories.category_id', $category_id)
+            ->orderBy('sub_categories.name', 'asc')
+            ->get(['sub_categories.*']);
+    }
 
 
 }
