@@ -61,32 +61,7 @@ class ProductController extends Controller
             $product->save();
         }
         return redirect()->route('admin.product.edit', $product->id)->with('success', 'Product Created Successfully');
-        // $this->validate($request, [
-        //     'name' => 'required',
-        //     'slug' => 'required|unique:categories,slug',
-        //     'meta_title' => 'required',
-        //     'category_id' => 'required',
-        // ],[
-        //     'name' => 'Sub Category name is required',
-        //     'category_id' => 'Category name is required',
-        // ]);
-
-        // $Product = Product::create([
-        //     'name' => trim($request->name),
-        //     'slug' => trim($request->slug),
-        //     'meta_title' => trim($request->meta_title),
-        //     'meta_description' =>trim($request->meta_description),
-        //     'meta_keywords' =>trim($request->meta_keywords),
-        //     'status' => $request->status,
-        //     'category_id' => $request->category_id,
-        //     'created_by' => Auth::user()->id
-        // ]);
-      
-
-        // if($Product)
-        // {
-        //     return redirect()->route('admin.product.list')->with('success', 'Sub Category Created Successfully');
-        // }
+        
         
     }
 
@@ -114,27 +89,27 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
        
-        $this->validate($request, [
-            'brand_id' => 'required',
-            'category_id' => 'required',
-            'sub_category_id' => 'required',
-            'title' => 'required',
-            'slug' => 'unique:products,slug,'.$id,
-            'sku' => 'nullable',
-            'new_price' => 'required',
-            'old_price' => 'required',
-            'meta_title' => 'required',
-            'short_description' => 'required',
-            'description' => 'required',
-            'additional_info' => 'required',
-            'shipping_returns' => 'required',
-            'status' => 'required',
-        ],[
-            'name' => 'Sub Category name is required',
-            'brand_id' => 'Brand name is required',
-            'category_id' => 'Category name is required',
-            'sub_category_id' => 'Sub Category name is required',
-        ]);
+        // $this->validate($request, [
+        //     'brand_id' => 'required',
+        //     'category_id' => 'required',
+        //     'sub_category_id' => 'required',
+        //     'title' => 'required',
+        //     'slug' => 'unique:products,slug,'.$id,
+        //     'sku' => 'nullable',
+        //     'new_price' => 'required',
+        //     'old_price' => 'required',
+        //     'meta_title' => 'required',
+        //     'short_description' => 'required',
+        //     'description' => 'required',
+        //     'additional_info' => 'required',
+        //     'shipping_returns' => 'required',
+        //     'status' => 'required',
+        // ],[
+        //     'name' => 'Sub Category name is required',
+        //     'brand_id' => 'Brand name is required',
+        //     'category_id' => 'Category name is required',
+        //     'sub_category_id' => 'Sub Category name is required',
+        // ]);
 
         $product = Product::findOrFail($id);
         $slug  = Str::slug($product->title, '-');
