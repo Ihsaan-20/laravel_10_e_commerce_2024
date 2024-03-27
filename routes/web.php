@@ -81,7 +81,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
 
 });
 
-//Category slug generator
+//Slug generator
 Route::post('/generate-slug', function(Request $request){
     $slug = Str::slug($request->input('title'), '-');
     return response()->json(['slug' => $slug]);
