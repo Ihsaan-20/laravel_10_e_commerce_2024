@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -51,6 +53,20 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('sub_category/edit/{id}', [SubCategoryController::class, 'edit'])->name('sub_category.edit');
     Route::put('sub_category/update/{id}', [SubCategoryController::class, 'update'])->name('sub_category.update');
     Route::get('sub_category/delete/{id}', [SubCategoryController::class, 'delete'])->name('sub_category.delete');
+    //Brand crud routes
+    Route::get('brand/list', [BrandController::class, 'list'])->name('brand.list');
+    Route::get('brand/add', [BrandController::class, 'add'])->name('brand.add');
+    Route::post('brand/store', [BrandController::class, 'store'])->name('brand.store');
+    Route::get('brand/edit/{id}', [BrandController::class, 'edit'])->name('brand.edit');
+    Route::put('brand/update/{id}', [BrandController::class, 'update'])->name('brand.update');
+    Route::get('brand/delete/{id}', [BrandController::class, 'delete'])->name('brand.delete');
+    //Color crud routes
+    Route::get('color/list', [ColorController::class, 'list'])->name('color.list');
+    Route::get('color/add', [ColorController::class, 'add'])->name('color.add');
+    Route::post('color/store', [ColorController::class, 'store'])->name('color.store');
+    Route::get('color/edit/{id}', [ColorController::class, 'edit'])->name('color.edit');
+    Route::put('color/update/{id}', [ColorController::class, 'update'])->name('color.update');
+    Route::get('color/delete/{id}', [ColorController::class, 'delete'])->name('color.delete');
     //Product crud routes
     Route::get('product/list', [ProductController::class, 'list'])->name('product.list');
     Route::get('product/add', [ProductController::class, 'add'])->name('product.add');

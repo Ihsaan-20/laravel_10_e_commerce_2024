@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
+            $table->integer('created_by')->nullable();
+            $table->integer('category_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->string('meta_title');
             $table->text('meta_description');
             $table->text('meta_keywords');
             $table->integer('status')->default(0);// 0 - inactive, 1 - active;
-            $table->integer('created_by')->nullable();
-            $table->integer('category_id')->nullable();
             $table->integer('is_deleted')->default(0);// 0 - not deleted, 1 - deleted;
             $table->timestamps();
         });

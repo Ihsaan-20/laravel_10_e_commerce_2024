@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +22,42 @@ class ProductController extends Controller
     public function add()
     {
         $data['header_title'] = 'Add Product';
-        $data['categories'] = Category::latest()->get();
-        $data['sub_categories'] = SubCategory::latest()->get();
+        $data['categories'] = Category::where('status', '1')
+                                        ->where('is_deleted', 0)
+                                        ->latest('created_at')
+                                        ->get();
+        $data['sub_categories'] = SubCategory::where('status', '1')
+                                                ->where('is_deleted', 0)
+                                                ->latest('created_at')
+                                                ->get();
+        $data['brands'] = Brand::where('status', '1')
+                                ->where('is_deleted', 0)
+                                ->latest('created_at')
+                                ->get();
         return view('admin.product.add', compact('data'));
     }
 
     public function store(Request $request)
     {
+        $title = trim($request->title);
+        $product = new Product();
+        $product->title = $title;
+        $product->created_by = Auth::user()->id;
+        $product->save();
+        
+        $slug  = Str::slug($title, '-');
+        $checkSlug = Product::checkSlug($slug);
+        if(empty($checkSlug))
+        {
+            $product->slug = $slug;
+            $product->save();
+        }else
+        {
+            $new_slug = $slug.'-'.$product->id;
+            $product->slug = $new_slug;
+            $product->save();
+        }
+        return redirect()->route('admin.product.edit', $product->id)->with('success', 'Product Created Successfully');
         // $this->validate($request, [
         //     'name' => 'required',
         //     'slug' => 'required|unique:categories,slug',
@@ -58,11 +89,21 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        // $data['header_title'] = 'Edit Product';
-        // $data['sub_category'] = Product::findOrFail($id);
-        // $data['categories'] = Category::latest()->get();
-        // $data['sub_categories'] = SubCategory::latest()->get();
-        // return view('admin.product.edit', compact('data'));
+        $data['header_title'] = 'Edit Product';
+        $data['categories'] = Category::where('status', '1')
+                                        ->where('is_deleted', 0)
+                                        ->latest('created_at')
+                                        ->get();
+        $data['sub_categories'] = SubCategory::where('status', '1')
+                                                ->where('is_deleted', 0)
+                                                ->latest('created_at')
+                                                ->get();
+        $data['brands'] = Brand::where('status', '1')
+                                ->where('is_deleted', 0)
+                                ->latest('created_at')
+                                ->get();
+        $data['product'] = Product::findOrFail($id);
+        return view('admin.product.edit', compact('data'));
     }
 
     public function update(Request $request, $id)

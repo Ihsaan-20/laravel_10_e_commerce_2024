@@ -46,7 +46,7 @@ class User extends Authenticatable
     ];
 
     // get all admins;
-    static public function getAdminList()
+    public static function getAdminList()
     {
         return self::where('is_admin', 1) // 
                     ->where('is_deleted', 0) // 0 for not deleted, 
@@ -54,7 +54,7 @@ class User extends Authenticatable
                     ->get();
     }
 
-    static public function getSingleUser($id)
+    public static function getSingleUser($id)
     {
         return self::findOrFail($id);
     }

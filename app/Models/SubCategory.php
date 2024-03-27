@@ -21,7 +21,7 @@ class SubCategory extends Model
         'created_by',
         'is_deleted',
     ];
-    static public function getSubCategories()
+    public static function getSubCategories()
     {
         return DB::table('sub_categories')
             ->leftJoin('categories', 'sub_categories.category_id', '=', 'categories.id')

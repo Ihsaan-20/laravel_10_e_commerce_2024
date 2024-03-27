@@ -45,6 +45,28 @@
       </li>
 
       <li class="nav-item menu-open">
+        <a href="{{route('admin.brand.list')}}" class="nav-link 
+        @if(Request::segment(2) == 'brand') active @endif"
+        >
+        <i class="nav-icon fas fa-list"></i>
+          <p>
+           Brand
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item menu-open">
+        <a href="{{route('admin.color.list')}}" class="nav-link 
+        @if(Request::segment(2) == 'color') active @endif"
+        >
+        <i class="nav-icon fas fa-list"></i>
+          <p>
+           Color
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item menu-open">
         <a href="{{route('admin.product.list')}}" class="nav-link 
           @if(Request::segment(2) == 'product') active @endif"
         >

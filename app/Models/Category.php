@@ -20,16 +20,7 @@ class Category extends Model
         'created_by',
         'is_deleted',
     ];
-
-    // static public function getCategories()
-    // {
-    //     return self::select('categories.*', 'users.name as created_by_name')
-    //                     ->join('users','users.id', '=', 'categories.created_by')
-    //                     ->where('categories.is_deleted', '=', 0)
-    //                     ->latest()
-    //                     ->get();
-    // }
-    static public function getCategories()
+    public static function getCategories()
     {
         return DB::table('categories')
             ->leftJoin('users', 'users.id', '=', 'categories.created_by')
@@ -40,5 +31,14 @@ class Category extends Model
                 'users.name as created_by_name'
             ]);
     }
+
+    // static public function getCategories()
+    // {
+    //     return self::select('categories.*', 'users.name as created_by_name')
+    //                     ->join('users','users.id', '=', 'categories.created_by')
+    //                     ->where('categories.is_deleted', '=', 0)
+    //                     ->latest()
+    //                     ->get();
+    // }
 
 }
