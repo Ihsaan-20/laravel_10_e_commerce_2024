@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function list()
     {
         $data['header_title'] = 'Product List';
-        $data['products'] = Product::all();
+        $data['products'] = Product::getProducts();
         return view('admin.product.list', compact('data'));
     }
     public function add()

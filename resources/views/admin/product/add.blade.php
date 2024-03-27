@@ -41,13 +41,9 @@
                     <label>Brand Name <span class="text-danger">*</span></label>
                     <select class="form-control" name="brand_id">
                       <option disabled selected>Select Brand Name</option>
-                      @forelse ($data['brands'] as $brand)
+                      @foreach ($data['brands'] as $brand)
                       <option value="{{$brand->id}}">{{$brand->name}}</option>
-                      @empty
-                      <option value="1">Dummy Brand 1</option>
-                      <option value="2">Dummy Brand 2</option>
-                      <option value="3">Dummy Brand 3</option>
-                      @endforelse
+                      @endforeach
                     </select>
                     @error('category_id')
                     <span class="text-danger">{{$message}}</span>
@@ -255,13 +251,9 @@
                 <label>Category Name <span class="text-danger">*</span></label>
                 <select class="form-control" name="category_id">
                   <option disabled selected>Select Category Name</option>
-                  @forelse ($data['categories'] as $category)
-                  <option value="{{$category->id}}">{{$category->name}}</option>
-                  @empty
-                  <option value="1">Dummy Category 1</option>
-                  <option value="2">Dummy Category 2</option>
-                  <option value="3">Dummy Category 3</option>
-                  @endforelse
+                  @foreach ($data['categories'] as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                  @endforeach
                 </select>
                 @error('category_id')
                 <span class="text-danger">{{$message}}</span>
@@ -272,13 +264,9 @@
                 <label>Sub Category Name <span class="text-danger">*</span></label>
                 <select class="form-control" name="sub_category_id">
                   <option disabled selected>Select Sub Category Name</option>
-                  @forelse ($data['sub_categories'] as $subCategory)
-                  <option value="{{$subCategory->id}}">{{$subCategory->name}}</option>
-                  @empty
-                  <option value="1">Dummy Sub Category 1</option>
-                  <option value="2">Dummy Sub Category 2</option>
-                  <option value="3">Dummy Sub Category 3</option>
-                  @endforelse
+                  @foreach ($data['sub_categories'] as $subCategory)
+                    <option value="{{$subCategory->id}}">{{$subCategory->name}}</option>
+                  @endforeach
                 </select>
                 @error('category_id')
                 <span class="text-danger">{{$message}}</span>

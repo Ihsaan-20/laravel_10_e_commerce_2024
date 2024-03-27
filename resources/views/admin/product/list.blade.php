@@ -27,7 +27,7 @@
                     <thead>
                     <tr>
                       <th>#</th>
-                      <th>Name</th>
+                      <th>Title</th>
                       <th>Slug</th>
                       <th>Status</th>
                       <th>Category Name</th>
@@ -36,10 +36,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($data['products'] as $key => $product)
+                        @foreach ($data['products'] as $key => $product)
                             <tr>
                                 <td>{{$key+1}}</td>
-                                <td>{{$product->name}}</td>
+                                <td>{{$product->title}}</td>
                                 <td>{{$product->slug}}</td>
                                 <td>{!! $product->status == 1 ? '<span class="text-success">Active</span>' : '<span class="text-danger">Inactive</span>' !!}</td>
                                 <td>{{$product->category_name}}</td>
@@ -50,7 +50,7 @@
                                 </td>
                                 
                             </tr>
-                        @endforeach --}}
+                        @endforeach
                    
                     
                     
