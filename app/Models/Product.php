@@ -97,10 +97,16 @@ class Product extends Model
     }
 
     public function getProductColor() {
-        return $this->hasMany(ProductColor::class);
+        return $this->hasMany(ProductColor::class,  'product_id');
     }
     public function getProductSize() {
-        return $this->hasMany(ProductSize::class);
+        return $this->hasMany(ProductSize::class, 'product_id');
     }
+
+    public function getImages()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
     
 }

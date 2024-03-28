@@ -76,6 +76,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::put('product/update/{id}', [ProductController::class, 'update'])->name('product.update');
     Route::get('product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+    Route::get('product/image/delete/{id}', [ProductController::class, 'deleteProductImage'])->name('product_image.delete');
 
     Route::get('profile', function () {
         return view('admin.profile');

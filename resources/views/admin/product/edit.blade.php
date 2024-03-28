@@ -337,36 +337,48 @@
               <div class="form-group">
                 <label>Gallary Images</label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="gallary_images" name="gallary_images[]"
+                  <input type="file" class="custom-file-input" id="product_images" name="product_images[]"
                     accept="image/*" multiple>
-                  <label class="custom-file-label" for="gallary_images">Choose files</label>
+                  <label class="custom-file-label" for="product_images">Choose files</label>
                 </div>
-                @error('gallary_images')
+                @error('product_images')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
               </div>
 
-              <div class="form-group">
+              <div class="row">
+                @forelse ($data['product']->getImages as $image)
+                <div class="col-6">
+                  @if(!empty($image->getImageUrl()))
+                    <div class="mb-2 text-center">
+                      <img src="{{ $image->getImageUrl() }}" alt="Product image" style="width:100%; height:100px; border-radius:5px;">
+                      <a href="{{route('admin.product_image.delete', $image->id)}}"
+                        onclick="return confirm('Are you sure you want to delete this product image?');"
+                        class="btn btn-danger w-50 btn-sm mt-1">X</a>
+                    </div>
+                  @endif
+                </div>
+                @empty
+                  <p>not uploaded</p>
+                @endforelse
+              </div>
+             
+              {{-- <div class="form-group">
                 <label>Thumbnail Image <span class="text-muted">(290x300)</span></label>
                 <div class="custom-file">
                   <input type="file" class="custom-file-input" id="thumbnail_img" name="thumbnail_img" accept="image/*">
                   <label class="custom-file-label" for="thumbnail_img">Choose file</label>
                 </div>
-                @error('gallary_images')
+                @error('thumbnail_img')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
-              </div>
+              </div> --}}
 
             </div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
 
-          <div class="row">
-            <div class="col-sm-3" id="show_images">
-              <p>image</p>
-            </div>
-          </div>
           <div class="text-right">
             <button type="submit" class="btn btn-success px-5">Update Product</button>
           </div>

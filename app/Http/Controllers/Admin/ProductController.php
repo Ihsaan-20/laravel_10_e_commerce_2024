@@ -12,7 +12,9 @@ use Illuminate\Support\Str;
 use App\Models\ProductColor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -135,9 +137,8 @@ class ProductController extends Controller
             $product->category_id = $request->category_id;
             $product->updated_at = now();
             $product->save();
-
+            //product colors;
             $oldColors = ProductColor::where('product_id', $id)->delete();
-
             if(!empty($request->color_id))
             {
                 foreach($request->color_id as $color_id){
@@ -147,7 +148,7 @@ class ProductController extends Controller
                     $color->save();
                 }
             }
-
+            //product size;
             $oldProductSizes = ProductSize::where('product_id', $id)->delete();
             if (!empty($request->size)) {
                 foreach ($request->size as $size) {
@@ -159,8 +160,30 @@ class ProductController extends Controller
                         $productSize->save();
                     }
                 }
-            }
+            }  
+            //upload images
+            if ($request->hasFile('product_images')) {
+                foreach ($request->file('product_images') as $image) {
+                    $randomStr = $product->id . Str::random(10);
+                    $original_name = $image->getClientOriginalName();
+                    $extension = $image->getClientOriginalExtension();
+                    $size = $image->getSize();
+                    $filename = strtolower($randomStr) . '.' . $extension;
+                    
+                    // Move the uploaded image to the storage directory
+                    $image->move(public_path('uploads/product_images'), $filename);
             
+                    // Save the product image details to the database
+                    $productImage = ProductImage::create([
+                        'product_id' => $product->id,
+                        'name' => $filename,
+                        'original_name' => $original_name,
+                        'image_path' => 'uploads/product_images/' . $filename, // Store the relative path
+                        'size' => $size,
+                        'extension' => $extension,
+                    ]);
+                }
+            }
 
         }
         
@@ -180,5 +203,17 @@ class ProductController extends Controller
         // {
         //     return redirect()->route('admin.product.list')->with('not_found', 'Sub Category not found! Please try again');
         // }
+    }
+
+    public function deleteProductImage($id)
+    {
+        $image = ProductImage::findOrFail($id);
+        if(!empty($image->getImageUrl()))
+        {
+            unlink('uploads/product_images/'.$image->name);
+        }
+        $image->delete();
+        return redirect()->back()->with('success', 'Image Deleted Successfully');
+
     }
 }
