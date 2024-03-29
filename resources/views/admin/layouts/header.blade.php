@@ -154,8 +154,10 @@
         <div class="info">
           @auth
             <a href="#" class="d-block">{{Auth::user()->name}}</a>
-            @endauth
+            @else
+
             <a href="#" class="d-block">Ihsaan</a>
+          @endauth
         </div>
       </div>
 

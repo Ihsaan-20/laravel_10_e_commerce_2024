@@ -4,18 +4,22 @@
 @endsection
 
 @section('content')
-@if ($errors->any())
-<div class="alert alert-danger">
-  <strong>Whoops!</strong> There were some problems with your input.<br><br>
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
+
 
 <section class="content">
+
+  @if ($errors->any())
+    <div class="alert alert-danger">
+      <strong>Whoops!</strong> There were some problems with your input.<br><br>
+      <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+
   <div class="container-fluid">
     <!-- form start -->
     <form action="{{route('admin.product.update',$data['product']->id)}}" method="POST" enctype="multipart/form-data">
@@ -159,7 +163,7 @@
             <div class="card-body">
               <div class="form-group">
                 <label>Short Description <span class="text-danger">*</span></label>
-                <textarea name="short_description" id="short_description" class="form-control" cols="30" rows="2"
+                <textarea name="short_description" id="summernote" class="form-control" cols="30" rows="2"
                   placeholder="Short Description">{{old('short_description',$data['product']->short_description)}}</textarea>
                 @error('short_description')
                 <span class="text-danger">{{$message}}</span>
@@ -168,7 +172,7 @@
 
               <div class="form-group">
                 <label>Description <span class="text-danger">*</span></label>
-                <textarea name="description" id="description" class="form-control" cols="30" rows="3"
+                <textarea name="description" id="summernote" class="form-control" cols="30" rows="3"
                   placeholder="Description">{{old('description',$data['product']->description)}}</textarea>
                 @error('description')
                 <span class="text-danger">{{$message}}</span>
@@ -177,7 +181,7 @@
 
               <div class="form-group">
                 <label>Additional Infomation <span class="text-danger">*</span></label>
-                <textarea name="additional_info" id="additional_info" class="form-control" cols="30" rows="3"
+                <textarea name="additional_info" id="summernote" class="form-control" cols="30" rows="3"
                   placeholder="Additional Infomation">{{old('additional_info',$data['product']->additional_info)}}</textarea>
                 @error('additional_info')
                 <span class="text-danger">{{$message}}</span>
@@ -186,7 +190,7 @@
 
               <div class="form-group">
                 <label>Shipping & Returns <span class="text-danger">*</span></label>
-                <textarea name="shipping_returns" id="shipping_returns" class="form-control" cols="30" rows="3"
+                <textarea name="shipping_returns" id="summernote" class="form-control" cols="30" rows="3"
                   placeholder="Shipping & Returns">{{old('shipping_returns',$data['product']->shipping_returns)}}</textarea>
                 @error('shipping_returns')
                 <span class="text-danger">{{$message}}</span>
@@ -217,7 +221,7 @@
 
               <div class="form-group">
                 <label>Meta Description</label>
-                <textarea name="meta_description" id="meta_description" class="form-control" cols="30" rows="10"
+                <textarea name="meta_description" id="summernote" class="form-control" cols="30" rows="10"
                   placeholder="Meta Description">{{old('meta_description',$data['product']->meta_description)}}</textarea>
                 @error('meta_description')
                 <span class="text-danger">{{$message}}</span>
@@ -346,11 +350,11 @@
                 @enderror
               </div>
 
-              <div class="row">
+              <div class="row" id="sortable">
                 @forelse ($data['product']->getImages as $image)
                 <div class="col-6">
                   @if(!empty($image->getImageUrl()))
-                    <div class="mb-2 text-center">
+                    <div class="mb-2 text-center sortable_img" id="{{$image->id}}">
                       <img src="{{ $image->getImageUrl() }}" alt="Product image" style="width:100%; height:100px; border-radius:5px;">
                       <a href="{{route('admin.product_image.delete', $image->id)}}"
                         onclick="return confirm('Are you sure you want to delete this product image?');"
@@ -395,6 +399,7 @@
 @endsection
 
 @section('customJs')
+
 <script>
   $(document).ready(function() {
       $('#category_id').on('change', function() {
@@ -435,9 +440,40 @@
           $('#' + id).closest('tr').remove();
       });
 
-        $("#sku").val(generateRandomSKU());
+      $("#sku").val(generateRandomSKU());
 
-  });
+
+      //sortable
+      $( "#sortable" ).sortable({
+      update: function(event, ui)
+      {
+        var image_id = new Array();
+        $('.sortable_img').each(function (){
+          var id = $(this).attr('id');
+          image_id.push(id);
+        });
+
+        $.ajax({
+          type: "POST",
+          url: "{{route('admin.product_image.sort')}}",
+          data: {
+            "image_id" : image_id,
+            "_token" : "{{ csrf_token() }}"
+          },
+          dataType: "json",
+          success: function(data)
+          {
+            console.log(data)
+          },
+          error: function (data)
+          {
+            console.log(data);
+          }
+        })
+      }
+    });
+
+  });//main document end here
 
   function generateRandomSKU(length=8) {
       var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
