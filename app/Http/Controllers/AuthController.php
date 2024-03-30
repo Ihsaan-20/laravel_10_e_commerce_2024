@@ -16,7 +16,6 @@ class AuthController extends Controller
         }
         return view('admin.auth.login');
     }
-
     public function admin_login_process(Request $request)
     {
         // dd($request->all());
@@ -36,9 +35,5 @@ class AuthController extends Controller
         }
     }
 
-    public function admin_logout()
-    {
-        Auth::logout();
-        return redirect('admin/login')->with('logout_success', 'Logout successfully');
-    }
+    
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SubCategoryController;
@@ -28,10 +29,8 @@ Route::get('admin/login', [AuthController::class, 'admin_login'])->name('admin.l
 Route::post('admin/login/process', [AuthController::class, 'admin_login_process'])->name('admin.login.process');
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('logout', [AuthController::class, 'admin_logout'])->name('logout');
-
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-
+    Route::get('logout', [DashboardController::class, 'admin_logout'])->name('logout');
     //Admin crud routes
     Route::get('admin/list', [AdminController::class, 'list'])->name('admin.list');
     Route::get('admin/add', [AdminController::class, 'add'])->name('admin.add');
@@ -54,7 +53,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::put('sub_category/update/{id}', [SubCategoryController::class, 'update'])->name('sub_category.update');
     Route::get('sub_category/delete/{id}', [SubCategoryController::class, 'delete'])->name('sub_category.delete');
     Route::post('get/sub_categories', [SubCategoryController::class, 'getSubCategories'])->name('get.sub_categories');
-    
     //Brand crud routes
     Route::get('brand/list', [BrandController::class, 'list'])->name('brand.list');
     Route::get('brand/add', [BrandController::class, 'add'])->name('brand.add');
@@ -79,10 +77,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('product/image/delete/{id}', [ProductController::class, 'deleteProductImage'])->name('product_image.delete');
     Route::post('product/image/sort', [ProductController::class, 'productImageSort'])->name('product_image.sort');
 
-    Route::get('profile', function () {
-        return view('admin.profile');
-    });
-
 });
 
 //Slug generator
@@ -91,9 +85,9 @@ Route::post('/generate-slug', function(Request $request){
     return response()->json(['slug' => $slug]);
 })->name('generate.slug');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
 
 
 

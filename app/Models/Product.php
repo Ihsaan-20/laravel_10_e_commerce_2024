@@ -52,7 +52,7 @@ class Product extends Model
         //         'sub_categories.name as sub_category_name',
         //         'brands.name as brand_name'
         //     ]);
-        return self::select('products.*','users.name as created_by_name', 'categories.name as category_name'w)
+        return self::select('products.*','users.name as created_by_name', 'categories.name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'products.created_by')
                     ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
                     ->where('products.is_deleted', 0)
