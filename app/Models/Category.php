@@ -32,13 +32,19 @@ class Category extends Model
             ]);
     }
 
-    // static public function getCategories()
-    // {
-    //     return self::select('categories.*', 'users.name as created_by_name')
-    //                     ->join('users','users.id', '=', 'categories.created_by')
-    //                     ->where('categories.is_deleted', '=', 0)
-    //                     ->latest()
-    //                     ->get();
-    // }
+    static public function getCategoriesForFront()
+    {
+        return self::select('categories.*', 'users.name as created_by_name')
+                        ->join('users','users.id', '=', 'categories.created_by')
+                        ->where('categories.is_deleted', '=', 0)
+                        ->where('categories.status', '=', 1)
+                        ->latest()
+                        ->get();
+    }
+
+    public function subCategoriesForFront()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
 
 }
