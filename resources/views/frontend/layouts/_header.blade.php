@@ -43,6 +43,7 @@
 
     <div class="header-middle sticky-header">
         <div class="container">
+            
             <div class="header-left">
                 <button class="mobile-menu-toggler">
                     <span class="sr-only">Toggle mobile menu</span>
@@ -254,21 +255,21 @@
                                                 @endphp
                                                 @foreach ($categories as $category)
                                                 <div class="col-md-6">
-                                                    <div class="menu-title">{{$category->name}}</div><!-- End .menu-title -->
+                                                    <a  href="{{route('home.category', $category->slug)}}" class="menu-title">{{$category->name}}</a><!-- End .menu-title -->
                                                     @foreach ($category->subCategoriesForFront as $sub )
                                                     <ul>
-                                                        <li><a href="#">{{$sub->name}}</a></li>
+                                                        <li><a href="{{route('home.category', ['category' => $category->slug, 'subcategory' => $sub->slug])}}">{{$sub->name}}</a></li>
                                                     </ul>
                                                     @endforeach
-                                                </div><!-- End .col-md-6 -->
+                                                </div>
                                                 @endforeach
 
-                                            </div><!-- End .row -->
-                                        </div><!-- End .menu-col -->
-                                    </div><!-- End .col-md-8 -->
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                </div><!-- End .row -->
-                            </div><!-- End .megamenu megamenu-md -->
+                                </div>
+                            </div>
                         </li>
                        
                         

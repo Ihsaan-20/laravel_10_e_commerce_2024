@@ -11,4 +11,18 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function wishlist()
+    {
+        return 'wishlist';
+    }
+    public function contact()
+    {
+        return 'contact';
+    }
+    public function about()
+    {
+        return 'about';
+    }
+    
 }

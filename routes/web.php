@@ -5,13 +5,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
+
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Frontend\FrontendProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +88,11 @@ Route::post('/generate-slug', function(Request $request){
 })->name('generate.slug');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/wishlist', [HomeController::class, 'wishlist'])->name('wishlist');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
+Route::get('/category/{category?}/{subcategory?}', [FrontendProductController::class, 'category'])->name('home.category');
 
 
 

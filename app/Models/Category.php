@@ -20,6 +20,15 @@ class Category extends Model
         'created_by',
         'is_deleted',
     ];
+
+    public static function getCategoryBySlug($slug)
+    {
+        return self::select('categories.*')
+                        ->where('categories.is_deleted', '=', 0)
+                        ->where('categories.status', '=', 1)
+                        ->where('categories.slug', '=', $slug)
+                        ->first();
+    }
     public static function getCategories()
     {
         return DB::table('categories')
@@ -38,13 +47,15 @@ class Category extends Model
                         ->join('users','users.id', '=', 'categories.created_by')
                         ->where('categories.is_deleted', '=', 0)
                         ->where('categories.status', '=', 1)
-                        ->latest()
+                        ->orderBy('name', 'asc')
                         ->get();
     }
 
     public function subCategoriesForFront()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(SubCategory::class)
+                    ->where('sub_categories.is_deleted', 0)
+                    ->where('sub_categories.status', 1);
     }
 
 }

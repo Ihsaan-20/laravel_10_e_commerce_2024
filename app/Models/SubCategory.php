@@ -21,6 +21,15 @@ class SubCategory extends Model
         'created_by',
         'is_deleted',
     ];
+    public static function getSubCategoryBySlug($slug)
+    {
+        return self::select('sub_categories.*')
+                        ->where('sub_categories.is_deleted', '=', 0)
+                        ->where('sub_categories.status', '=', 1)
+                        ->where('sub_categories.slug', '=', $slug)
+                        ->first();
+    }
+
     public static function getSubCategories()
     {
         return DB::table('sub_categories')
