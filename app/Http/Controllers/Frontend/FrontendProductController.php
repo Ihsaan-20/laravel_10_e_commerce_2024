@@ -11,26 +11,56 @@ class FrontendProductController extends Controller
 {
     public function category($category, $subcategory = '') // slugs
     {
-        // dd($category, $subcategory);
         $getCategory = Category::getCategoryBySlug($category);
-        $getSubCategory = SubCategory::getSubCategoryBySlug($subcategory);
-        if(!empty($getCategory) && !empty($getSubCategory))
-        {
+        $getSubCategory = $subcategory ? SubCategory::getSubCategoryBySlug($subcategory) : null;
+
+        if ($getCategory) {
             $data['getCategory'] = $getCategory;
-            $data['getSubCategory'] = $getSubCategory;
+            $data['meta_title'] = $getCategory->meta_title;
+            $data['meta_description'] = $getCategory->meta_description;
+            $data['meta_keywords'] = $getCategory->meta_keywords;
+
+            if ($getSubCategory) {
+                $data['getSubCategory'] = $getSubCategory;
+                $data['meta_title'] = $getSubCategory->meta_title;
+                $data['meta_description'] = $getSubCategory->meta_description;
+                $data['meta_keywords'] = $getSubCategory->meta_keywords;
+            }
+
             return view('frontend.product.list', compact('data'));
         }
-        else if(!empty($getCategory))
-        {
-            $data['getCategory'] = $getCategory;
-            return view('frontend.product.list', compact('data'));
-        }
-        else
-        {
-            abort(404);
-        }
-        
+
+        abort(404);
     }
+
+
+    // public function category($category, $subcategory = '') // slugs
+    // {
+    //     $getCategory = Category::getCategoryBySlug($category);
+    //     $getSubCategory = SubCategory::getSubCategoryBySlug($subcategory);
+    //     if(!empty($getCategory) && !empty($getSubCategory))
+    //     {
+    //         $data['getCategory'] = $getCategory;
+    //         $data['getSubCategory'] = $getSubCategory;
+    //         $data['meta_title'] = $getSubCategory->meta_title;
+    //         $data['meta_description'] = $getSubCategory->meta_description;
+    //         $data['meta_keywords'] = $getSubCategory->meta_keywords;
+    //         return view('frontend.product.list', compact('data'));
+    //     }
+    //     else if(!empty($getCategory))
+    //     {
+    //         $data['getCategory'] = $getCategory;
+    //         $data['meta_title'] = $getCategory->meta_title;
+    //         $data['meta_description'] = $getCategory->meta_description;
+    //         $data['meta_keywords'] = $getCategory->meta_keywords;
+    //         return view('frontend.product.list', compact('data'));
+    //     }
+    //     else
+    //     {
+    //         abort(404);
+    //     }
+        
+    // }
 
 
 }

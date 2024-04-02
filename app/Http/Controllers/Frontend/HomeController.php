@@ -9,7 +9,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home');
+        $data['meta_title'] = 'Home - E-commerce';
+        $data['meta_description'] = '';
+        $data['meta_keywords'] = '';
+        return view('home', compact('data'));
     }
 
     public function wishlist()

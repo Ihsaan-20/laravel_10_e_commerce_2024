@@ -6,10 +6,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title> eCommerce </title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="p-themes">
+    <title> {{!empty($data['meta_title']) ? $data['meta_title'] : '' }} </title>
+    @if(!empty($data['meta_description']))
+    <meta name="description" content="{{$data['meta_description']}}">
+    @endif
+    @if(!empty($data['meta_keywords']))
+    <meta name="keywords" content="{{$data['meta_keywords']}}">
+    @endif
     <link rel="shortcut icon" href="{{ asset('frontend/assets/images/icons/favicon.ico') }}">
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
