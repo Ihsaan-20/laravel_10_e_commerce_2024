@@ -11,24 +11,9 @@ class Product extends Model
     use HasFactory;
     protected $table = 'products';
     protected $fillable = [
-        'created_by',
-        'category_id',
-        'sub_category_id',
-        'brand_id',
-        'title',
-        'slug',
-        'old_price',
-        'new_price',
-        'short_description',
-        'description',
-        'additional_info',
-        'shipping_returns',
-        'meta_title',
-        'meta_description',
-        'meta_keywords',
-        'is_featured',
-        'status',
-        'is_deleted',
+        'created_by','category_id','sub_category_id','brand_id','title','slug','old_price',
+        'new_price','short_description','description','additional_info','shipping_returns',
+        'meta_title','meta_description','meta_keywords','is_featured','status','is_deleted',
     ];
 
     public static function checkSlug($slug)
@@ -36,22 +21,58 @@ class Product extends Model
         return self::where('slug', '=', $slug)->count();
     }
 
+    public static function getProductsByCategoryOrSubcategory($category_id = null, $sub_category_id = null)
+    {
+        $query = self::select(
+                'products.*', 'users.name as created_by_name',
+                'categories.name as category_name', 'categories.slug as category_slug',
+                'sub_categories.name as sub_category_name', 'sub_categories.slug as sub_category_slug'
+            )
+            ->leftJoin('users', 'users.id', '=', 'products.created_by')
+            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
+            ->where('products.is_deleted', 0)
+            ->where('products.status', 1)
+            ->latest('created_by');
+
+        if ($category_id) {
+            $query->where('products.category_id', '=', $category_id);
+        }
+
+        if ($sub_category_id) {
+            $query->where('products.sub_category_id', '=', $sub_category_id);
+        }
+
+        return $query->paginate(10);
+    }
+
+
+    // public static function getProductsByCategoryOrSubcategory($category_id = null, $sub_category_id = null)
+    // {
+    //     $query = self::select(
+    //                         'products.*','users.name as created_by_name',
+    //                         'categories.name as category_name', 'categories.slug as category_slug',
+    //                         'sub_categories.name as sub_category_name', 'sub_categories.slug as sub_category_slug'
+    //                         )
+    //                 ->leftJoin('users', 'users.id', '=', 'products.created_by')
+    //                 ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+    //                 ->leftJoin('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id');
+    //                 if($category_id)
+    //                 {
+    //                     $query = $query->where('products.category_id', '=', $category_id);
+    //                 }
+    //                 if($sub_category_id)
+    //                 {
+    //                     $query = $query->where('products.sub_category_id', '=', $sub_category_id);
+    //                 }
+    //                 $query = $query->where('products.is_deleted', 0)
+    //                                 ->where('products.status', 1)
+    //                                 ->latest('created_by')
+    //                                 ->paginate(10);
+    //     return $query;
+    // }
     public static function getProducts()
     {
-        // return DB::table('products')
-        //     ->leftJoin('users', 'users.id', '=', 'products.created_by')
-        //     ->leftJoin('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
-        //     ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
-        //     ->leftJoin('brands', 'brands.id', '=', 'products.brand_id')
-        //     ->where('products.is_deleted', 0)
-        //     ->latest()
-        //     ->get([
-        //         'products.*',
-        //         'users.name as created_by_name',
-        //         'categories.name as category_name',
-        //         'sub_categories.name as sub_category_name',
-        //         'brands.name as brand_name'
-        //     ]);
         return self::select('products.*','users.name as created_by_name', 'categories.name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'products.created_by')
                     ->leftJoin('categories', 'categories.id', '=', 'products.category_id')

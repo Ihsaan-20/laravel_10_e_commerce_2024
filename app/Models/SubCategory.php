@@ -11,15 +11,8 @@ class SubCategory extends Model
     use HasFactory;
     protected $table = 'sub_categories';
     protected $fillable = [
-        'category_id',
-        'name',
-        'slug',
-        'meta_title',
-        'meta_description',
-        'meta_keywords',
-        'status',
-        'created_by',
-        'is_deleted',
+        'category_id','name','slug','meta_title','meta_description',
+        'meta_keywords','status','created_by','is_deleted',
     ];
     public static function getSubCategoryBySlug($slug)
     {
