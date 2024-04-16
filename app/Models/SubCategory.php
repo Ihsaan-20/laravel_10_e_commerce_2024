@@ -37,10 +37,12 @@ class SubCategory extends Model
             ]);
     }
     //with pagination;
+
     static public function getSubCategoriesByCategoryId($category_id)
     {
         return DB::table('sub_categories')
             ->leftJoin('users', 'users.id', '=', 'sub_categories.created_by')
+            ->select('sub_categories.*', DB::raw('(SELECT COUNT(*) FROM products WHERE products.sub_category_id = sub_categories.id AND products.is_deleted = 0 AND products.status = 1) as product_count'))
             ->where('sub_categories.is_deleted', 0)
             ->where('sub_categories.status', 1)
             ->where('sub_categories.category_id', $category_id)
@@ -48,5 +50,24 @@ class SubCategory extends Model
             ->get(['sub_categories.*']);
     }
 
+
+    // static public function getSubCategoriesByCategoryId($category_id)
+    // {
+    //     return DB::table('sub_categories')
+    //         ->leftJoin('users', 'users.id', '=', 'sub_categories.created_by')
+    //         ->where('sub_categories.is_deleted', 0)
+    //         ->where('sub_categories.status', 1)
+    //         ->where('sub_categories.category_id', $category_id)
+    //         ->orderBy('sub_categories.name', 'asc')
+    //         ->get(['sub_categories.*']);
+    // }
+
+    // public function totalProducts()
+    // {
+    //     return $this->hasMany(Product::class, 'sub_category_id')
+    //                 ->where('products.is_deleted', 0)
+    //                 ->where('products.status', 1)
+    //                 ->count();
+    // }
 
 }

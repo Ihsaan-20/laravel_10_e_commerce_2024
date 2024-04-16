@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Color;
 
 class FrontendProductController extends Controller
 {
@@ -14,15 +16,22 @@ class FrontendProductController extends Controller
     {
         $getCategory = Category::getCategoryBySlug($category);
         $getSubCategory = $subcategory ? SubCategory::getSubCategoryBySlug($subcategory) : null;
-
+        
+        
+        $data['getColors'] = Color::getColors();
+        $data['getBrands'] = Brand::getBrands();
         if ($getCategory) {
             $data['getCategory'] = $getCategory;
+            $data['getSubCategoryFilter'] = SubCategory::getSubCategoriesByCategoryId($getCategory->id);
+            // dd($data['getSubCategoryFilter']);
+
             $data['meta_title'] = $getCategory->meta_title;
             $data['meta_description'] = $getCategory->meta_description;
             $data['meta_keywords'] = $getCategory->meta_keywords;
-            
             if ($getSubCategory) {
                 $data['getSubCategory'] = $getSubCategory;
+                $data['getSubCategoryFilter'] = SubCategory::getSubCategoriesByCategoryId($getCategory->id);
+
                 $data['meta_title'] = $getSubCategory->meta_title ?? $data['meta_title'];
                 $data['meta_description'] = $getSubCategory->meta_description ?? $data['meta_description'];
                 $data['meta_keywords'] = $getSubCategory->meta_keywords ?? $data['meta_keywords'];
