@@ -19,6 +19,7 @@ class Product extends Model
     public static function checkSlug($slug)
     {
         return self::where('slug', '=', $slug)->count();
+        
     }
 
     public static function getProductsByCategoryOrSubcategory($category_id = null, $sub_category_id = null)
