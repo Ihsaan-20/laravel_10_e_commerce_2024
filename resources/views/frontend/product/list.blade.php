@@ -133,6 +133,13 @@
                 </div><!-- End .col-lg-9 -->
                 <aside class="col-lg-3 order-lg-first">
                     <div class="sidebar sidebar-shop">
+
+                        <form id="filter_form" method="POST">
+                            <input type="text" name="sub_category_id" id="sub_category_id">
+                            <input type="text" name="brand_id" id="brand_id">
+                            <input type="text" name="color_id" id="color_id">
+                        </form>
+
                         <div class="widget widget-clean">
                             <label>Filters:</label>
                             <a href="#" class="sidebar-filter-clear">Clean All</a>
@@ -151,7 +158,8 @@
                                         @forelse ($data['getSubCategoryFilter'] as $subFilter )
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="cat-{{$subFilter->id}}">
+                                                <input type="checkbox" class="custom-control-input changeCategory" 
+                                                    id="cat-{{$subFilter->id}}" value="{{$subFilter->id}}">
                                                 <label class="custom-control-label" for="cat-{{$subFilter->id}}">{{$subFilter->name}}</label>
                                             </div><!-- End .custom-checkbox -->
                                             <span class="item-count">{{ $subFilter->product_count }}</span>
@@ -242,7 +250,7 @@
                                 <div class="widget-body">
                                     <div class="filter-colors">
                                         @forelse ($data['getColors'] as $clr )
-                                            <a href="#" style="background: {{$clr->color_code}};"><span class="sr-only">{{$clr->name}}</span></a>
+                                            <a href="javascript:void(0)" style="background: {{$clr->color_code}};" class="changeColor" id="{{$clr->id}}" data-status="0" ><span class="sr-only">{{$clr->name}}</span></a>
                                         @empty
                                             <a href="#" style="background: #b87145;"><span class="sr-only">Color Name</span></a>
                                             <a href="#" style="background: #f0c04a;"><span class="sr-only">Color Name</span></a>
@@ -274,7 +282,7 @@
                                         @forelse ($data['getBrands'] as $brand)
                                             <div class="filter-item">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="brand-{{$brand->id}}">
+                                                    <input type="checkbox" class="custom-control-input changeBrand" id="brand-{{$brand->id}}" value="{{$brand->id}}">
                                                     <label class="custom-control-label" for="brand-{{$brand->id}}">{{$brand->name}}</label>
                                                 </div><!-- End .custom-checkbox -->
                                             </div><!-- End .filter-item -->
@@ -331,5 +339,69 @@
 @endsection
 
 @section('customJs')
-{{-- //js here --}}
+<script>
+    //   alert('working');  
+    $('.changeCategory').change(function() {
+        var ids = '';
+        $('.changeCategory').each(function() {
+           if(this.checked)
+           {
+                var id = $(this).val();
+                ids += id + ',';
+            }
+        });
+
+        $('#sub_category_id').val(ids);
+    });
+
+    $('.changeBrand').change(function() {
+        var ids = '';
+        $('.changeBrand').each(function() {
+           if(this.checked)
+           {
+                var id = $(this).val();
+                ids += id + ',';
+            }
+        });
+
+        $('#brand_id').val(ids);
+    });
+
+    $('.changeColor').click(function() {
+        var id = this.id;
+        $(this).toggleClass('selected');
+        $(this).attr('data-status', function(index, oldVal) {
+            return oldVal === '0' ? '1' : '0';
+        });
+        
+        var ids = '';
+        $('.changeColor').each(function() {
+           if( $(this).attr('data-status') == 1)
+           {
+                var id = $(this).attr('id');
+                ids += id + ',';
+            }
+        });
+
+        $('#color_id').val(ids);
+
+        console.log(id);
+    });
+
+    // $('.changeColor').click(function() {
+    //    var id = $(this).attr('id');
+    //    var status = $(this).attr('data-status');
+    //    if(status == 0)
+    //    {
+    //         $(this).attr('data-status', 1);
+    //         $(this).addClass('selected');
+    //    }
+    //    else
+    //    {
+    //         $(this).attr('data-status', 0);
+    //         $(this).removeClass('selected');
+    //    }
+    //    console.log(id);
+    // });
+</script>
 @endsection
